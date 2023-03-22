@@ -4,7 +4,7 @@ import sqlite3
 import numpy as np
 from keras.models import load_model
 from PIL import Image
-import cv2
+#import cv2
 
 st.sidebar.title("Fake Currency Detection")
 st.sidebar.image("s1.jpg")
