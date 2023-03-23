@@ -4,7 +4,6 @@ import sqlite3
 import numpy as np
 from keras.models import load_model
 from PIL import Image
-#import cv2
 
 st.sidebar.title("Fake Currency Detection")
 st.sidebar.image("s1.jpg")
@@ -15,8 +14,6 @@ c = conn.cursor()
 
 # Create a table to store user information
 c.execute('''CREATE TABLE IF NOT EXISTS users (username text, password text)''')
-
-
 
 def fake_currency(imgg):
     IMAGE_SIZE = 64
@@ -40,40 +37,6 @@ def fake_currency(imgg):
         cd="Fake Currency detected"
     return cd
 
-def main():
-    st.sidebar.title("Fake Currency Detection")
-      
-    #option = st.sidebar.selectbox("Options", ["Image","Video"])
-    
-    #if option == "Image":
-    img = st.sidebar.file_uploader("Upload Image", type=["png","jpg","svg","jpeg"])
-    
-    if img:
-        st.image(img, width=500)
-        
-        result = fake_currency(img)
-        
-        st.header(result)
-
-
-    ## Video
-    # if option=="Video":
-    #     st.title("Onbuild")
-        # st.title("Webcam Live Feed")
-        # run = st.checkbox("Run")
-        # FRAME_WINDOW = st.image([])
-        # camera = cv2.VideoCapture(0)
-
-        # while run:
-        #     _, frame = camera.read()
-        #     frame = cv2.resize(frame, (1000,700))
-        #     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        #     FRAME_WINDOW.image(frame)
-        
-        # camera.release()
-
-
-
 def hash_password(password):
     """Hash a password using SHA-256"""
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
@@ -84,12 +47,9 @@ def signup():
     password = st.text_input("Enter a password", type="password")
     confirm_password = st.text_input("Confirm your password", type="password")
     
-    col1, col2 = st.columns(2)
     
-    with col1:
-        signup_button = st.button("SignUp")
-    with col2:
-        st.info("Login if already have account")
+    signup_button = st.button("SignUp")
+    st.info("Login if already have account")
     
     if signup_button:
         if password != confirm_password:
@@ -114,26 +74,36 @@ def login():
             st.success("You have successfully logged in")
             session_id = user[0] # Use the username as the session ID
             st.session_state['session_id'] = session_id
-            
-            st.info("Choose fake currency detection from options")
-            
+        
+                
         else:
             st.error("Incorrect username or password")
    
-            
+def get_image():
+    img = st.file_uploader("Upload Image", type=["png","jpg","svg","jpeg"])
+    if img:
+        st.image(img, width=500)  
+        result = fake_currency(img)
+        
+        st.header(result)
+
 def logout():
     st.session_state.pop('session_id', None)
-    st.write("You have been logged out")    
+    st.info("You have been logged out")  
     
-
-
-
-
-menu = ["Signup","Login", "Logout","Detect With Image"]
+menu = ["Upload Image","Signup","Login", "Logout"]
 if 'session_id' not in st.session_state:
-    choice = st.sidebar.selectbox("Select an option", menu[:-2])
+    choice = st.sidebar.selectbox("Select an option", menu[1:-1])
 else:
     choice = st.sidebar.selectbox("Select an option", menu)
+    
+####    
+st.sidebar.text("Created By :-")
+st.sidebar.write("- Swaraj Sawarkar")
+st.sidebar.write("- Sumit Mule")
+st.sidebar.write("- Prutha Wankhede")
+st.sidebar.write("- Mayuri Savikar")
+st.sidebar.write("- Rushikesh Sharma")
 
 if choice == "Login":
     login()
@@ -141,7 +111,7 @@ elif choice == "Signup":
     signup()
 elif choice == "Logout":
     logout()
-elif choice == "Detect With Image":
-    main()
+elif choice == "Upload Image":
+    get_image()
 else:
     st.write("Welcome back, " + st.session_state['session_id'])
