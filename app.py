@@ -136,11 +136,12 @@ In summary, fake currency detection is an important task that can be tackled usi
     
     
     
-menu = ["Upload Image","About","Signup","Login", "Logout"]
+menu1 = ["Signup","Login"]
+menu2 = ["Upload Image", "About", "Logout"]
 if 'session_id' not in st.session_state:
-    choice = st.sidebar.selectbox("Select an option", menu[2:-1])
+    choice = st.sidebar.selectbox("Select an option", menu1)
 else:
-    choice = st.sidebar.selectbox("Select an option", menu)
+    choice = st.sidebar.selectbox("Select an option", menu2)
     
 ####    
 st.sidebar.text("Created By :-")
