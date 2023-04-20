@@ -45,7 +45,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS users (username text, password text)''')
 
 def fake_currency(imgg):
     IMAGE_SIZE = 64
-    model = load_model('currency_model.h5')
+    model = load_model('currency_modell.h5')
     img = Image.open(imgg)
 
     img = img.resize((IMAGE_SIZE,IMAGE_SIZE))
